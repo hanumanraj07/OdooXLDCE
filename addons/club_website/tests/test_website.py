@@ -236,26 +236,27 @@ class TestJoinForm(WebsiteCase):
 
     def test_form_has_the_fields_a_visitor_needs_and_a_honeypot(self):
         html = self.get('/join')
-        for name in ('name', 'email', 'phone', 'type', 'plan', 'sport', 'message', 'website_url', 'csrf_token'):
+        for name in ('name', 'email', 'phone', 'type', 'plan', 'message', 'website_url', 'csrf_token'):
             self.assertIn('name="%s"' % name, html)
-        for label in ('Membership', 'Court Booking', 'Pro-Shop', 'Gold', 'Silver', 'Junior', 'Tennis', 'Padel'):
+        for label in ('Gold', 'Silver', 'Junior'):
             self.assertIn(label, html)
+        self.assertNotIn('name="sport"', html, "the sport choice was removed from the form")
+        self.assertNotIn('I am interested in', html, "the enquiry type is no longer asked")
 
     def test_links_preselect_the_plan_and_type(self):
         html = self.get('/join?type=membership&plan=gold&sport=tennis')
         self.assertRegex(html, r'<option value="gold"[^>]*selected')
-        self.assertRegex(html, r'<option value="tennis"[^>]*selected')
-        self.assertRegex(self.get('/join?type=court'), r'<option value="court"[^>]*selected')
+        self.assertRegex(self.get('/join?type=court'), r'<input type="hidden" name="type" value="court"')
 
     def test_unknown_type_falls_back_to_membership(self):
-        self.assertRegex(self.get('/join?type=whatever'), r'<option value="membership"[^>]*selected')
+        self.assertRegex(self.get('/join?type=whatever'), r'<input type="hidden" name="type" value="membership"')
 
     def test_prefilled_text_is_escaped(self):
         html = self.get('/join?message=%3Cscript%3Ealert(1)%3C/script%3E')
         self.assertNotIn('<script>alert(1)</script>', html)
 
     def test_contact_page_posts_a_general_enquiry(self):
-        self.assertRegex(self.get('/contact'), r'<option value="general"[^>]*selected')
+        self.assertRegex(self.get('/contact'), r'<input type="hidden" name="type" value="general"')
 
     def test_submit_creates_the_crm_lead_and_shows_the_reference(self):
         response = self.submit(name='Rahul Patel', email='rahul.web@example.com', phone='+91 90000 12345',

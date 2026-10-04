@@ -20,15 +20,7 @@
                     <input id="enq-phone" type="tel" name="phone" class="form-control" maxlength="30" t-att-value="form['phone']"/>
                     <div class="form-text">Email or phone, so we can reach you.</div>
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="enq-type">I am interested in</label>
-                    <select id="enq-type" name="type" class="form-select">
-                        <t t-foreach="types" t-as="kind">
-                            <option t-att-value="kind[0]" t-esc="kind[1]"
-                                    t-att-selected="'selected' if form['type'] == kind[0] else None"/>
-                        </t>
-                    </select>
-                </div>
+                <input type="hidden" name="type" t-att-value="form['type']"/>
                 <div class="col-md-6">
                     <label class="form-label" for="enq-plan">Membership plan</label>
                     <select id="enq-plan" name="plan" class="form-select">
@@ -38,16 +30,6 @@
                                     t-att-selected="'selected' if form['plan'] == plan.code else None">
                                 <t t-esc="plan.name"/> (₹<t t-esc="'{:,.0f}'.format(plan.price)"/> / year)
                             </option>
-                        </t>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="enq-sport">Sport</label>
-                    <select id="enq-sport" name="sport" class="form-select">
-                        <option value="">Any</option>
-                        <t t-foreach="sports" t-as="sport">
-                            <option t-att-value="sport[0]" t-esc="sport[1]"
-                                    t-att-selected="'selected' if form['sport'] == sport[0] else None"/>
                         </t>
                     </select>
                 </div>
