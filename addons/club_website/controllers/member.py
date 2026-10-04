@@ -24,6 +24,25 @@ def signed_in_defaults():
     return values
 
 
+def signed_in_member():
+    """The member behind the current session (a signed-in portal user who is a club member),
+    or an empty recordset. Their identity comes from the session, never from the form."""
+    user = request.env.user
+    partner = user.partner_id.sudo()
+    if user.share and not user._is_public() and partner.is_member:
+        return partner
+    return request.env['res.partner']
+
+
+def member_card(partner):
+    """What the booking and checkout pages show about the signed-in member."""
+    if not partner:
+        return None
+    plan = partner._get_active_plan()
+    return {'name': partner.name, 'member_id': partner.member_id,
+            'plan': plan.name if plan else None, 'active': bool(plan)}
+
+
 class ClubMember(http.Controller):
 
     def _booking_row(self, booking):
@@ -37,7 +56,7 @@ class ClubMember(http.Controller):
         }
 
     @http.route('/my/club', type='http', auth='user', website=True, sitemap=False)
-    def my_club(self, **kw):
+    def my_club(self, paid=None, **kw):
         partner = request.env.user.partner_id.sudo()
         plan = partner._get_active_plan()
         today = club_today()
@@ -52,6 +71,7 @@ class ClubMember(http.Controller):
         enquiry = request.env['crm.lead'].sudo().search(
             [('partner_id', '=', partner.id), ('enquiry_ref', '!=', False)], order='id desc', limit=1)
         return request.render('club_website.my_club_page', {
+            'paid': paid if paid in ('joined', 'renewed') else None,
             'enquiry': enquiry and {
                 'reference': enquiry.enquiry_ref, 'plan': enquiry.interested_plan_id.name,
                 'url': '/club/enquiry/status/%s' % enquiry.enquiry_token},

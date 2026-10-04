@@ -189,3 +189,24 @@ a.nav-link[href="/join"] {
 }
 
 .club-site .club-login-box { border-top: 1px dashed $club-line; margin-top: 1.25rem; padding-top: 1rem; }
+
+// Feedback stars (radios in 5..1 order, shown reversed so a click fills the stars to its left)
+.club-site {
+    .club-stars { display: inline-flex; flex-direction: row-reverse; gap: .15rem;
+        input { position: absolute; opacity: 0; pointer-events: none; }
+        label { cursor: pointer; margin: 0; svg { fill: #e2e8f0; stroke: #cbd5e1; stroke-width: 1; transition: fill .12s; } }
+        label:hover svg, label:hover ~ label svg, input:checked ~ label svg { fill: $club-gold; stroke: $club-gold; }
+        input:focus-visible + label svg { outline: 2px solid $club-green; outline-offset: 2px; } }
+    .club-help-links { color: $club-muted; font-size: .9rem; }
+}
+
+.club-site .club-member-on { border-style: solid; border-color: #a7f3d0; background: #ecfdf5; color: #065f46; }
+
+// Home: what members say
+.club-site .club-quote { background: #fff; border: 1px solid $club-line; border-radius: 1.1rem; padding: 1.5rem; height: 100%; margin: 0; display: flex; flex-direction: column;
+    .club-quote-stars svg { fill: #e2e8f0; &.on { fill: $club-gold; } }
+    blockquote { flex-grow: 1; margin: .75rem 0 1rem; color: #334155; font-size: 1rem; }
+    figcaption { font-size: .9rem; } }
+
+.club-site .club-plan-ask { display: block; text-align: center; margin-top: .6rem; font-size: .9rem; color: $club-muted; }
+.club-site .club-note code { background: #fef3c7; padding: .05rem .35rem; border-radius: .3rem; }

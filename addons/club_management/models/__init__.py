@@ -13,3 +13,9 @@ from . import club_pos_and_shop
 from . import frontend_api
 from . import club_dashboard
 from . import demo_data
+from . import club_support
+from . import demo_extras
+from . import membership_purchase
+from . import club_finance
+from . import demo_finance
+from . import member_lookup

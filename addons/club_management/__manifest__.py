@@ -5,7 +5,7 @@
     'summary': 'Memberships, courts and bookings for The Champions Club',
     'author': 'Hackathon Team',
     'license': 'LGPL-3',
-    'depends': ['base', 'web', 'mail', 'account', 'product', 'crm', 'sale_crm', 'point_of_sale', 'stock'],
+    'depends': ['base', 'web', 'mail', 'account', 'product', 'crm', 'sale_crm', 'point_of_sale', 'stock', 'hr', 'hr_holidays'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
@@ -30,6 +30,9 @@
         'views/order_views.xml',
         'views/crm_lead_views.xml',
         'views/admin_views.xml',
+        'views/finance_views.xml',
+        'views/support_views.xml',
+        'views/menu_tidy.xml',
     ],
     'demo': [
         'demo/demo_courts.xml',
@@ -40,6 +43,9 @@
     'assets': {
         'web.assets_backend': [
             'club_management/static/src/scss/champions_variables.scss',
+            'club_management/static/src/components/common/member_picker.scss',
+            'club_management/static/src/components/common/member_picker.xml',
+            'club_management/static/src/components/common/member_picker.js',
             'club_management/static/src/components/membership_plans/membership_plans.scss',
             'club_management/static/src/components/membership_plans/membership_plans.xml',
             'club_management/static/src/components/membership_plans/membership_plans.js',
@@ -58,6 +64,12 @@
             'club_management/static/src/components/analytics/analytics.js',
             'club_management/static/src/components/staff_overview/staff_overview.xml',
             'club_management/static/src/components/staff_overview/staff_overview.js',
+            'club_management/static/src/components/monitoring/monitoring.xml',
+            'club_management/static/src/components/monitoring/monitoring.js',
+            'club_management/static/src/components/member_lookup/member_lookup.xml',
+            'club_management/static/src/components/member_lookup/member_lookup.js',
+            'club_management/static/src/components/club_home/club_home.xml',
+            'club_management/static/src/components/club_home/club_home.js',
         ],
     },
     'application': True,
